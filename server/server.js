@@ -1,8 +1,11 @@
+import path from 'path'
 import express from 'express'
 import nodemailer from 'nodemailer'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import colors from 'colors'
+
+const __dirname = path.resolve()
 
 dotenv.config()
 
@@ -76,6 +79,12 @@ app.post('/api/contactEmail', (req, res) => {
         }
         res.status(200).json({ message: 'Email sent successfully' })
     })
+})
+
+app.use(express.static(path.join(__dirname, '/client/build')))
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
 })
 
 // Start the server
